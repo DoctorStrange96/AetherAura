@@ -26,7 +26,7 @@ clear
 # Init Fields
 AE_VERSION=Furai
 AE_DATE=$(date +%Y%m%d)
-AE_TOOLCHAIN=~/Toolchains/Linaro-4.9-arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
+AE_TOOLCHAIN=~/Toolchains/AOSP-4.8-arm-eabi/bin/arm-eabi-
 AE_DIR=$(pwd)
 # Init Methods
 CLEAN_SOURCE()
