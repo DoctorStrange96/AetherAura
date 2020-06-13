@@ -1,4 +1,5 @@
 # Support XZ KERNEL Compress
+CONFIG_LOCALVERSION=-AetherAura-Furai-By-Strange
 CONFIG_KERNEL_XZ=y
 # CONFIG_KERNEL_LZ4 is not set
 CONFIG_DECOMPRESS_LZ4=y
