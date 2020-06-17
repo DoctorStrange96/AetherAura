@@ -24,16 +24,15 @@
 #
 clear
 # Init Fields
-AE_VERSION=FleurCannon
+AE_VERSION=Wakizashi
 AE_DATE=$(date +%Y%m%d)
-AE_TOOLCHAIN=/home/caelestisz/AndroidBuilds/Toolchains/linaro-4.8/bin/arm-eabi-
+AE_TOOLCHAIN=~/Toolchains/linaro-4.8-arm-eabi/bin/arm-eabi-
 AE_DIR=$(pwd)
 # Init Methods
 CLEAN_SOURCE()
 {
-	make clean
 	make mrproper
-	rm -r -f $AE_DIR/output
+	rm -rf $AE_DIR/output
 }
 BUILD_ZIMAGE()
 {
@@ -44,16 +43,11 @@ BUILD_ZIMAGE()
 	export CROSS_COMPILE=$AE_TOOLCHAIN
 	export LOCALVERSION=-AetherAura-$AE_VERSION-$AE_VARIANT-$AE_DATE
 	mkdir output
-	make -C $AE_DIR -j5 O=output aether_msm8916_defconfig VARIANT_DEFCONFIG=$AE_DEFCON SELINUX_DEFCONFIG=aether_selinux_defconfig
-	make -C $AE_DIR -j5 O=output
-	mkdir $AE_DIR/AETHER/build/system/lib/modules/pronto
-	cp $AE_DIR/output/drivers/staging/prima/wlan.ko $AE_DIR/AETHER/build/system/lib/modules/pronto/pronto_wlan.ko
-	cp $AE_DIR/output/arch/arm/oprofile/oprofile.ko $AE_DIR/AETHER/build/system/lib/modules/oprofile.ko
-	cp $AE_DIR/output/crypto/ansi_cprng.ko $AE_DIR/AETHER/build/system/lib/modules/ansi_cprng.ko
-	cp $AE_DIR/output/drivers/gator/gator.ko $AE_DIR/AETHER/build/system/lib/modules/gator.ko
-	cp $AE_DIR/output/drivers/input/evbug.ko $AE_DIR/AETHER/build/system/lib/modules/evbug.ko
-	cp $AE_DIR/output/drivers/mmc/card/mmc_test.ko $AE_DIR/AETHER/build/system/lib/modules/mmc_test.ko
-	cp $AE_DIR/output/drivers/spi/spidev.ko $AE_DIR/AETHER/build/system/lib/modules/spidev.ko
+	make -C $AE_DIR `expr $((($(nproc --all) * 2) + 1))` O=output aether_msm8916_defconfig VARIANT_DEFCONFIG=$AE_DEFCON SELINUX_DEFCONFIG=aether_selinux_defconfig
+	make -C $AE_DIR `expr $((($(nproc --all) * 2) + 1))` O=output
+	mkdir -p $AE_DIR/AETHER/build/system/lib/modules/pronto
+	find . -type f -iname "*.ko" -exec cp {} $AE_DIR/AETHER/build/system/lib/modules \;
+	mv $AE_DIR/output/drivers/staging/prima/wlan.ko $AE_DIR/AETHER/build/system/lib/modules/pronto/pronto_wlan.ko
 	echo " "
 }
 BUILD_DTB()
@@ -199,6 +193,7 @@ echo "     /_/   |______\_/|_/  /_____\| \_\        "
 echo "                                              "
 echo "     AetherAura $AE_VERSION Build Script      "
 echo "             Coded by CaelestisZ              "
+echo "         Modified by DoctorStrange96          "
 echo "                                              "
 PS3='Please select your option (1-7): '
 menuvar=("fortuna3g" "fortuna3gdtv" "fortunave3g" "fortunaltedx" "gprimeltexx" "build all" "Exit")
