@@ -243,7 +243,7 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer $(GRAPHITE)
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -std=gnu89 $(GRAPHITE)
 HOSTCXXFLAGS = -O3 $(GRAPHITE)
 
 # Decide whether to build built-in, modular, or both.
@@ -372,12 +372,25 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+#KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+#		   -fno-strict-aliasing -fno-common \
+#		   -Werror-implicit-function-declaration \
+#		   -Wno-format-security \
+#		   -fno-delete-null-pointer-checks \
+#		   -Wno-unused -Wno-maybe-uninitialized -mfloat-abi=softfp -mfpu=neon-vfpv4 \
+#		   -std=gnu89
+
+KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
-		   -Werror-implicit-function-declaration \
-		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks \
-		   -Wno-unused -Wno-maybe-uninitialized -mfloat-abi=softfp -mfpu=neon-vfpv4
+		   -Werror-implicit-function-declaration -Wno-switch-unreachable -Wno-logical-not-parentheses \
+		   -Wno-format-security -Wno-unused -Wno-maybe-uninitialized \
+		   -Wno-bool-compare -Wno-int-to-pointer-cast -Wno-duplicate-decl-specifier \
+		   -Wno-misleading-indentation -Wno-incompatible-pointer-types -Wno-nonnull -Wno-bool-operation \
+		   -Wno-discarded-array-qualifiers -fno-delete-null-pointer-checks \
+		   -marm -mtune=cortex-a53 -fmodulo-sched -fmodulo-sched-allow-regmoves -Wno-array-bounds \
+		   -mfloat-abi=softfp -mfpu=vfpv4 \
+		   -std=gnu89
+
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
