@@ -372,24 +372,14 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-#KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
-#		   -fno-strict-aliasing -fno-common \
-#		   -Werror-implicit-function-declaration \
-#		   -Wno-format-security \
-#		   -fno-delete-null-pointer-checks \
-#		   -Wno-unused -Wno-maybe-uninitialized -mfloat-abi=softfp -mfpu=neon-vfpv4 \
-#		   -std=gnu89
-
 KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration -Wno-switch-unreachable -Wno-logical-not-parentheses \
 		   -Wno-format-security -Wno-unused -Wno-maybe-uninitialized \
 		   -Wno-bool-compare -Wno-int-to-pointer-cast -Wno-duplicate-decl-specifier \
 		   -Wno-misleading-indentation -Wno-incompatible-pointer-types -Wno-nonnull -Wno-bool-operation \
-		   -Wno-discarded-array-qualifiers -fno-delete-null-pointer-checks \
-		   -marm -fmodulo-sched -fmodulo-sched-allow-regmoves -Wno-array-bounds \
-		   -mfloat-abi=softfp -mfpu=vfpv4 \
-		   -std=gnu89
+		   -Wno-discarded-array-qualifiers -fno-delete-null-pointer-checks -Wno-array-bounds \
+		   -mfloat-abi=softfp -mfpu=vfpv4 -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -591,7 +581,7 @@ all: vmlinux
 KBUILD_CFLAGS 	+= $(call cc-disable-warning,maybe-uninitialized,)
 
 # Needed to unbreak gcc 7+
-KBUILD_CFLAGS 	+= $(call cc-optiion,-fno-store-merging,)
+KBUILD_CFLAGS 	+= $(call cc-option,-fno-store-merging,)
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
