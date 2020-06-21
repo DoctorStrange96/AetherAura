@@ -26,7 +26,7 @@ clear
 # Init Fields
 AE_VERSION=Wakizashi
 AE_DATE=$(date +%Y%m%d)
-AE_TOOLCHAIN=~/Toolchains/linaro-4.8-arm-eabi/bin/arm-eabi-
+AE_TOOLCHAIN=~/Toolchains/Linaro-4.8-arm-eabi/bin/arm-eabi-
 AE_DIR=$(pwd)
 # Init Methods
 CLEAN_SOURCE()
@@ -43,8 +43,8 @@ BUILD_ZIMAGE()
 	export CROSS_COMPILE=$AE_TOOLCHAIN
 	export LOCALVERSION=-AetherAura-$AE_VERSION-$AE_VARIANT-$AE_DATE
 	mkdir output
-	make -C $AE_DIR `expr $((($(nproc --all) * 2) + 1))` O=output aether_msm8916_defconfig VARIANT_DEFCONFIG=$AE_DEFCON SELINUX_DEFCONFIG=aether_selinux_defconfig
-	make -C $AE_DIR `expr $((($(nproc --all) * 2) + 1))` O=output
+	make -C $AE_DIR -j`expr $((($(nproc --all) * 2) + 1))` O=output aether_msm8916_defconfig VARIANT_DEFCONFIG=$AE_DEFCON SELINUX_DEFCONFIG=aether_selinux_defconfig
+	make -C $AE_DIR -j`expr $((($(nproc --all) * 2) + 1))` O=output
 	mkdir -p $AE_DIR/AETHER/build/system/lib/modules/pronto
 	find . -type f -iname "*.ko" -exec cp {} $AE_DIR/AETHER/build/system/lib/modules \;
 	mv $AE_DIR/output/drivers/staging/prima/wlan.ko $AE_DIR/AETHER/build/system/lib/modules/pronto/pronto_wlan.ko
